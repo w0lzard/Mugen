@@ -2,10 +2,11 @@ package com.ryuken.mugen.feature.auth.signin
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import jakarta.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class SignInViewModel : ViewModel() {
+class SignInViewModel @Inject constructor() : ViewModel() {
 private val _state = MutableStateFlow<SignInState>(SignInState.Nothing)
     val state = _state.asStateFlow()
     fun signIn(email: String, password: String){
@@ -14,12 +15,16 @@ private val _state = MutableStateFlow<SignInState>(SignInState.Nothing)
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    _state.value = SignInState.Success
+                    task.result.user?.let {
+                        _state.value = SignInState.Success
+                        return@addOnCompleteListener
+                    }
+                    _state.value = SignInState.Error
+
                 } else {
                     _state.value = SignInState.Error
                 }
             }
-        _state.value = SignInState.Success
 
     }
 }
