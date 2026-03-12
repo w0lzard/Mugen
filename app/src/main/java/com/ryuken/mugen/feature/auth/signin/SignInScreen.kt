@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,12 +30,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ryuken.mugen.R
 
 @Composable
 fun SignInScreen(navController: NavController) {
+    val viewModel : SignInViewModel = hiltViewModel()
+    val uiState = viewModel.state.collectAsState()
     var email by remember {
         mutableStateOf("")
     }
@@ -78,11 +84,19 @@ fun SignInScreen(navController: NavController) {
                 visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.size(16.dp))
-            Button(onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Sign In")
-            }
-            TextButton(onClick = { navController.navigate("signup") }) {
-                Text(text = "Don't have an account? SignUp")
+            if (uiState.value == SignInState.Loading){
+                CircularProgressIndicator()
+            }else {
+                Button(
+                    onClick = { viewModel.signIn(email, password) },
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = email.isNotEmpty() && password.isNotEmpty() && (uiState.value == SignInState.Nothing || uiState.value == SignInState.Error)
+                ) {
+                    Text(text = "Sign In")
+                }
+                TextButton(onClick = { navController.navigate("signup") }) {
+                    Text(text = "Don't have an account? SignUp")
+                }
             }
         }
     }

@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -56,6 +57,7 @@ dependencies {
     implementation(libs.dagger.hilt.core)
     implementation(libs.dagger.hilt.android)
     implementation(libs.dagger.hilt.compose)
+    implementation(libs.firebase.auth)
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.coil.compose)
@@ -67,6 +69,5 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
-    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.analytics)
 }
