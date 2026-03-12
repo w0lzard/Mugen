@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "281931276445",
+    "project_id": "mugen-3769d",
+    "storage_bucket": "mugen-3769d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:281931276445:android:8a9f6dc752974132c07474",
+        "android_client_info": {
+          "package_name": "com.ryuken.mugen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAto5xwTD2sfH26s3dkIPYrW0WLbNNNJ30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
